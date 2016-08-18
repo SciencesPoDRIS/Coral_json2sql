@@ -68,12 +68,13 @@ def insertEnglishItem(item) :
 	if len(item) == 18 or len(item) == 19 :
 		if item['DESCRIPTION'] is None :
 			logging.error('The discription of this item is empty : ' + item['ID']);
-		insert += 'INSERT INTO ' + resource_table_name + ' (resourceID, createDate, createLoginID, titleText, descriptionText, resourceURL) VALUES ('
+		insert += 'INSERT INTO ' + resource_table_name + ' (resourceID, createDate, createLoginID, titleText, descriptionText, statusID, resourceURL) VALUES ('
 		insert += item['ID'] + ', '
 		insert += '\'' + time.strftime("%Y-%m-%d") + '\', '
 		insert += '\'' + admin_login + '\', '
 		insert += '\'' + mysqlFormat(item['TITLE']) + '\', '
 		insert += '\'\', ' if item['DESCRIPTION'] is None else '\'' + mysqlFormat(item['DESCRIPTION']) + '\', '
+		insert += '1, '
 		insert += '\'' + getUrl(item) + '\''
 		insert += ');\n'
 		insert += 'INSERT INTO ' + lang_table_name + ' (resourceId, languageId) VALUES ('
