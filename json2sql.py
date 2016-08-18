@@ -29,7 +29,9 @@ subject_table_name = 'ResourceSubject'
 admin_login = 'coral'
 languages = {'en' : 1, 'fr' : 2, 'es' : 3, 'pt' : 4, 'de' : 5, 'multi' : 6}
 types = {'reference tools' : 1, 'language dictionaries' : 2, 'e-books' : 3, 'press' : 4, 'e-journals' : 5, 'statistical data' : 6, 'financial data' : 7, 'multimedia' : 8, 'industry profiles' : 9, 'country profiles' : 10, 'maps' : 11, 'working papers' : 12, 'dissertations & theses' : 13, 'official publications' : 14, 'open access resources' : 15, 'national licenses' : 16, 'search engines' : 17, 'tools' : 18}
+types_deleted = ['databases', 'dictionaries, encyclopedias']
 subjects = {'News' : 1, 'Law' : 2 , 'Economics' : 3, 'Environment' : 4, 'Finance' : 5, 'Management' : 6, 'History' : 7, 'International Relations' : 8, 'Science' : 9, 'Political Science' : 10, 'Languages' : 11, 'Literature' : 12, 'Sociology' : 13, 'Philosophy' : 14, 'Ethnology' : 15, 'Religion' : 16, 'Arts' : 17, 'Education' : 18, 'Psychology' : 19, 'Geography' : 20}
+subjects_deleted = ['Test', 'Economics & Finance', 'Social Sciences', 'Statistics', 'Reference']
 accesses = {'local access only' : 1, 'remote access only' : 2, 'local and remote access' : 3, 'free access' : 4, 'restricted access' : 5}
 
 
@@ -85,7 +87,7 @@ def insertEnglishItem(item) :
 			insert += str(types[item['CLASSEMENT_TYPE']])
 			insert += ');\n'
 		else :
-			if item['CLASSEMENT_TYPE'] not in ['databases', 'dictionaries, encyclopedias'] :
+			if item['CLASSEMENT_TYPE'] not in types_deleted :
 				logging.error('This type doesn\'t exist : ' + item['CLASSEMENT_TYPE'] + '.')
 		# Link subjects to a resource
 		for category in item['category'] :
@@ -95,7 +97,7 @@ def insertEnglishItem(item) :
 				insert += str(subjects[category])
 				insert += ');\n'
 			else :
-				if category not in ['Test', 'Economics & Finance', 'Social Sciences', 'Statistics', 'Reference'] :
+				if category not in subjects_deleted :
 					logging.error('This category doesn\'t exist : ' + category + ' in item ' + item['ID'] + '.')
 		# Set access type of a resource
 		if item['access_type'][0] in accesses.keys() :
@@ -124,7 +126,7 @@ def main() :
 	logging.basicConfig(filename = log_file, filemode = 'w+', format = '%(asctime)s  |  %(levelname)s  |  %(message)s', datefmt = '%m/%d/%Y %I:%M:%S %p', level = log_level)
 	logging.info('Start')
 
-	# empty the resources and languages tables
+	# Empty the resources and languages tables
 	result = ''
 	result += 'TRUNCATE TABLE ' + resource_table_name + ';\n'
 	result += 'TRUNCATE TABLE ' + lang_table_name + ';\n'
@@ -135,13 +137,13 @@ def main() :
 	result += 'TRUNCATE TABLE ResourceTypeLink;\n'
 	result += 'TRUNCATE TABLE ResourceSubject;\n'
 
-	# load json file with data in english
+	# Load json file with data in english
 	with open(json_en_file) as json_file :
 		items = json.load(json_file)['items']
 	for item in items :
 		result += insertEnglishItem(item)
 
-	# load json file with data in french
+	# Load json file with data in french
 	with open(json_fr_file) as json_file :
 		items = json.load(json_file)['items']
 	for item in items :
