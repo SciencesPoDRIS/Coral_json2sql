@@ -9,6 +9,11 @@
 data
 
 #
+# Log folder
+#
+log
+
+#
 # Results file
 #
 items.sql
