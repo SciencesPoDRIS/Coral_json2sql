@@ -1,0 +1,14 @@
+#
+# Mac files
+# 
+.DS_Store
+
+#
+# Data folder
+#
+data
+
+#
+# Results file
+#
+items.sql
