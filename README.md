@@ -23,6 +23,11 @@ Create a convert from JSON format to SQL format to import data in Coral
 - "category" field from json file will correspond to "Product" tab, "Subjects" array.
 
 
+## Credits
+
+[Sciences Po - Library](http://www.sciencespo.fr/bibliotheque/en)
+
+
 ## Licenses
 [LGPL V3.0](http://www.gnu.org/licenses/lgpl.txt "LGPL V3.0")
 
